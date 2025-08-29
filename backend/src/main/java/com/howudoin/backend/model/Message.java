@@ -12,19 +12,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User
+public class Message
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
+
     private Long userId;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String password;
-
-    private boolean active;
+    private String content;
 }
