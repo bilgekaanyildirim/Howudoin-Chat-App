@@ -15,7 +15,6 @@ public class MessageController
     public Message sendMessage(@RequestBody Message message)
     {
         message.setContent("Hello, this is a test message.");
-        message.setUserId(1L);
         messageRepository.save(message);
         return messageRepository.save(message);
     }
