@@ -28,14 +28,8 @@ public class FriendRequest
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status;
+    private FriendRequestStatus status;
 
     private LocalDateTime createdAt;
-
-    public enum Status {
-        PENDING,
-        ACCEPTED,
-        REJECTED
-    }
 }
 
