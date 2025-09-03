@@ -40,12 +40,6 @@ public class User
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "user1", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Set<Contact> contactsInitiated = new HashSet<>();
-
-    @OneToMany(mappedBy = "user2", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private Set<Contact> contactReceived = new HashSet<>();
-
-    @ManyToMany(mappedBy = "members", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Group> groupList = new HashSet<>();
+    @ManyToMany(mappedBy = "members")
+    private Set<Channel> channels = new HashSet<>();
 }

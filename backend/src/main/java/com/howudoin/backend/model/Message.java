@@ -23,12 +23,8 @@ public class Message
     private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
-
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "channel_id")
+    private Channel channel;
 
     private String content;
 

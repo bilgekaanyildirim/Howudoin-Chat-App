@@ -12,17 +12,18 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "groups")
-public class Group
+@Table(name = "channels")
+public class Channel
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long groupId;
+    @Column(name = "channel_id")
+    private Long channelId;
 
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "adminId", nullable = false)
+    @JoinColumn(name = "admin_id", nullable = false)
     private User admin;
 
     private LocalDateTime createdAt;
@@ -30,8 +31,9 @@ public class Group
     private String description;
 
     @ManyToMany
-    @JoinTable(name = "group_members",
-            joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @JoinTable(name = "channel_members",
+            joinColumns = @JoinColumn(name = "channel_id", referencedColumnName = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"channel_id", "user_id"}))
     private Set<User> members;
 }

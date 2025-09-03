@@ -9,14 +9,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "contacts")
-public class Contact
-{
+@AllArgsConstructor
+@Table(name = "friendships", uniqueConstraints = @UniqueConstraint(columnNames = {"user1_id", "user2_id"}))
+public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long contactId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user1_id", nullable = false)
@@ -28,3 +27,4 @@ public class Contact
 
     private LocalDateTime createdAt;
 }
+
