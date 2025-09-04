@@ -5,7 +5,7 @@ import com.howudoin.backend.model.FriendRequest;
 import com.howudoin.backend.model.FriendRequestStatus;
 import com.howudoin.backend.model.Friendship;
 import com.howudoin.backend.model.User;
-import com.howudoin.backend.payload.FriendRequestRequest;
+import com.howudoin.backend.payload.FriendRequestDTO;
 import com.howudoin.backend.repository.FriendRequestRepository;
 import com.howudoin.backend.repository.FriendshipRepository;
 import com.howudoin.backend.repository.UserRepository;
@@ -30,13 +30,13 @@ public class FriendRequestImplementation implements FriendRequestService
     FriendshipRepository friendshipRepository;
 
     @Override
-    public String sendFriendRequest(FriendRequestRequest friendRequestRequest)
+    public String sendFriendRequest(FriendRequestDTO friendRequestDTO)
     {
 
-        User receiver = userRepository.findById(friendRequestRequest.getReceiverId())
+        User receiver = userRepository.findById(friendRequestDTO.getReceiverId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
-        User sender = userRepository.findById(friendRequestRequest.getSenderId())
+        User sender = userRepository.findById(friendRequestDTO.getSenderId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
         FriendRequest friendRequest = friendRequestRepository.findFriendRequest(sender.getUserId(), receiver.getUserId());
@@ -81,12 +81,12 @@ public class FriendRequestImplementation implements FriendRequestService
     }
 
     @Override
-    public String acceptFriendRequest(FriendRequestRequest friendRequestRequest)
+    public String acceptFriendRequest(FriendRequestDTO friendRequestDTO)
     {
-        User receiver = userRepository.findById(friendRequestRequest.getReceiverId())
+        User receiver = userRepository.findById(friendRequestDTO.getReceiverId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
-        User sender = userRepository.findById(friendRequestRequest.getSenderId())
+        User sender = userRepository.findById(friendRequestDTO.getSenderId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
         FriendRequest friendRequest = friendRequestRepository.findFriendRequest(sender.getUserId(), receiver.getUserId());
@@ -112,12 +112,12 @@ public class FriendRequestImplementation implements FriendRequestService
     }
 
     @Override
-    public String refuseFriendRequest(FriendRequestRequest friendRequestRequest)
+    public String refuseFriendRequest(FriendRequestDTO friendRequestDTO)
     {
-        User receiver = userRepository.findById(friendRequestRequest.getReceiverId())
+        User receiver = userRepository.findById(friendRequestDTO.getReceiverId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
-        User sender = userRepository.findById(friendRequestRequest.getSenderId())
+        User sender = userRepository.findById(friendRequestDTO.getSenderId())
                 .orElseThrow(() -> new RuntimeException("Error: User not found."));
 
         FriendRequest friendRequest = friendRequestRepository.findFriendRequest(sender.getUserId(), receiver.getUserId());
