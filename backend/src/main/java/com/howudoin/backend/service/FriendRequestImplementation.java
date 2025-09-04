@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class FriendRequestImplementation implements FriendRequestService
@@ -134,8 +135,9 @@ public class FriendRequestImplementation implements FriendRequestService
     }
 
     @Override
-    public String getFriendRequests()
+    public List<FriendRequest> getFriendRequests()
     {
-
+        List<FriendRequest> friendRequests = friendRequestRepository.findFriendRequestsById(1L);
+        return friendRequests;
     }
 }

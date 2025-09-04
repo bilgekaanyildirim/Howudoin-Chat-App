@@ -1,6 +1,9 @@
 package com.howudoin.backend.service;
 
+import com.howudoin.backend.model.FriendRequest;
 import com.howudoin.backend.payload.FriendRequestRequest;
+
+import java.util.List;
 
 public interface FriendRequestService
 {
@@ -10,5 +13,5 @@ public interface FriendRequestService
 
     String refuseFriendRequest(FriendRequestRequest friendRequestRequest);
 
-    String getFriendRequests();
+    List<FriendRequest> getFriendRequests();
 }

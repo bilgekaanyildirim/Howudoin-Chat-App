@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,7 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
             "(fr.sender.userId = :senderId AND fr.receiver.userId = :receiverId) OR " +
             "(fr.sender.userId = :receiverId AND fr.receiver.userId = :senderId)")
     FriendRequest findFriendRequest(Long senderId, Long receiverId);
+
+    @Query("SELECT fr FROM FriendRequest fr WHERE fr.receiver.userId = :userId OR fr.sender.userId = :userId")
+    List<FriendRequest> findFriendRequestsById(Long userId);
 }

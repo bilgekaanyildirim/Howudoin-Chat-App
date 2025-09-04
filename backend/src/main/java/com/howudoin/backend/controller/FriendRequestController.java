@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/friend-request")
 public class FriendRequestController
@@ -48,9 +50,9 @@ public class FriendRequestController
     }
 
     @GetMapping
-    public ResponseEntity<String> getFriendRequests()
+    public ResponseEntity<List<FriendRequest>> getFriendRequests()
     {
-        String message = friendRequestService.getFriendRequests();
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        List<FriendRequest> friendRequests = friendRequestService.getFriendRequests();
+        return new ResponseEntity<>(friendRequests, HttpStatus.OK);
     }
 }
