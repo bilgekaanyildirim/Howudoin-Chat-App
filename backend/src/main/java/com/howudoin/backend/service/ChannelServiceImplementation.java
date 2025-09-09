@@ -4,14 +4,14 @@ import com.howudoin.backend.model.Channel;
 import com.howudoin.backend.model.User;
 import com.howudoin.backend.payload.ChannelDTO;
 import com.howudoin.backend.repository.ChannelRepository;
+import com.howudoin.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class ChannelServiceImplementation implements ChannelService
@@ -22,20 +22,33 @@ public class ChannelServiceImplementation implements ChannelService
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public String createChannel(ChannelDTO channelDTO)
     {
-        Channel channel = new Channel();
-        channel = modelMapper.map(channelDTO, Channel.class);
+        User admin = userRepository.findById(channelDTO.getAdminId())
+                .orElseThrow(() -> new RuntimeException("Admin user not found"));
 
-        Set<User> members = channelDTO.getMembers().stream()
-                .map(userDTO -> modelMapper.map(userDTO, User.class))
-                .collect(Collectors.toSet());
-        channel.setMembers(members);
+        Set<User> members = new HashSet<>();
 
-        channel.setCreatedAt(LocalDateTime.now());
+       for (Long memberId : channelDTO.getMemberIds())
+       {
+              User member = userRepository.findById(memberId)
+                      .orElseThrow(() -> new RuntimeException("Member user not found with ID: " + memberId));
 
-        channelRepository.save(channel);
-        return "Channel created successfully";
+              members.add(member);
+       }
+       Channel channel = new Channel();
+       channel.setAdmin(admin);
+       channel.setMembers(members);
+       channel.setName(channelDTO.getName());
+       channel.setDescription(channelDTO.getDescription());
+       channel.setCreatedAt(LocalDateTime.now());
+
+       channelRepository.save(channel);
+
+       return "Channel created successfully";
     }
 }

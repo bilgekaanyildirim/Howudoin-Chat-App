@@ -39,7 +39,4 @@ public class User
     @Size(max = 120)
     @Column(name = "password")
     private String password;
-
-    @ManyToMany(mappedBy = "members")
-    private Set<Channel> channels = new HashSet<>();
 }

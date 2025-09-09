@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -35,5 +36,5 @@ public class Channel
             joinColumns = @JoinColumn(name = "channel_id", referencedColumnName = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"channel_id", "user_id"}))
-    private Set<User> members;
+    private Set<User> members = new HashSet<>();
 }
