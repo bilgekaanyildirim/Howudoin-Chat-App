@@ -57,6 +57,9 @@ public class ChannelServiceImplementation implements ChannelService
         User user = userRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (channel.getMembers().contains(user))
+            throw new RuntimeException("User is already a member of the channel");
+
         channel.getMembers().add(user);
         channelRepository.save(channel);
 
