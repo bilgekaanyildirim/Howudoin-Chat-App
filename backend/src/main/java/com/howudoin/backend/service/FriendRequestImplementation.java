@@ -1,10 +1,7 @@
 package com.howudoin.backend.service;
 
 import com.howudoin.backend.configuration.FriendRequestConstants;
-import com.howudoin.backend.model.FriendRequest;
-import com.howudoin.backend.model.FriendRequestStatus;
-import com.howudoin.backend.model.Friendship;
-import com.howudoin.backend.model.User;
+import com.howudoin.backend.model.*;
 import com.howudoin.backend.payload.FriendRequestDTO;
 import com.howudoin.backend.repository.FriendRequestRepository;
 import com.howudoin.backend.repository.FriendshipRepository;
@@ -107,6 +104,14 @@ public class FriendRequestImplementation implements FriendRequestService
         friendRequest.setStatus(FriendRequestStatus.ACCEPTED);
         friendRequest.setCreatedAt(now);
         friendRequestRepository.save(friendRequest);
+
+        Channel channel = new Channel();
+        channel.setName(sender.getUsername() + " & " + receiver.getUsername());
+        channel.setDescription("Private chat between " + sender.getUsername() + " and " + receiver.getUsername());
+        channel.setCreatedAt(now);
+        channel.setAdmin(sender);
+        channel.getMembers().add(sender);
+        channel.getMembers().add(receiver);
 
         return "Friend request accepted successfully.";
     }
