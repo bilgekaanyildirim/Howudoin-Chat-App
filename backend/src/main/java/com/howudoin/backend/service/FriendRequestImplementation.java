@@ -3,6 +3,7 @@ package com.howudoin.backend.service;
 import com.howudoin.backend.configuration.FriendRequestConstants;
 import com.howudoin.backend.model.*;
 import com.howudoin.backend.payload.FriendRequestDTO;
+import com.howudoin.backend.repository.ChannelRepository;
 import com.howudoin.backend.repository.FriendRequestRepository;
 import com.howudoin.backend.repository.FriendshipRepository;
 import com.howudoin.backend.repository.UserRepository;
@@ -26,6 +27,9 @@ public class FriendRequestImplementation implements FriendRequestService
     @Autowired
     FriendshipRepository friendshipRepository;
 
+    @Autowired
+    ChannelRepository channelRepository;
+
     @Override
     public String sendFriendRequest(FriendRequestDTO friendRequestDTO)
     {
@@ -42,11 +46,11 @@ public class FriendRequestImplementation implements FriendRequestService
         {
             if (friendRequest.getStatus() == FriendRequestStatus.PENDING)
             {
-                return "Friend request is already pending.";
+                throw new RuntimeException("Friend request is already pending.");
             }
             else if (friendRequest.getStatus() == FriendRequestStatus.ACCEPTED)
             {
-                return "You are already friends.";
+                throw new RuntimeException("You are already friends.");
             }
             else if (friendRequest.getStatus() == FriendRequestStatus.REFUSED)
             {
@@ -62,7 +66,7 @@ public class FriendRequestImplementation implements FriendRequestService
                     LocalDateTime allowedResendDate = friendRequest.getCreatedAt().plusYears(FriendRequestConstants.FRIENDREQUEST_RESEND_YEAR_TIME);
                     Duration duration = Duration.between(LocalDateTime.now(), allowedResendDate);
                     long daysLeft = duration.toDays();
-                    return "You can resend the friend request after " + daysLeft + " day(s) from the last refusal.";
+                    throw new RuntimeException("You can resend the friend request after " + daysLeft + " day(s) from the last refusal.");
                 }
             }
         }
@@ -90,7 +94,7 @@ public class FriendRequestImplementation implements FriendRequestService
 
         if (friendRequest == null || friendRequest.getStatus() != FriendRequestStatus.PENDING)
         {
-            return "No pending friend request found.";
+            throw new RuntimeException("No pending friend request found.");
         }
 
         LocalDateTime now = LocalDateTime.now();
@@ -111,6 +115,7 @@ public class FriendRequestImplementation implements FriendRequestService
         channel.setCreatedAt(now);
         channel.getMembers().add(sender);
         channel.getMembers().add(receiver);
+        channelRepository.save(channel);
 
         return "Friend request accepted successfully.";
     }
@@ -128,7 +133,7 @@ public class FriendRequestImplementation implements FriendRequestService
 
         if (friendRequest == null || friendRequest.getStatus() != FriendRequestStatus.PENDING)
         {
-            return "No pending friend request found.";
+            throw new RuntimeException("No pending friend request found.");
         }
 
         friendRequest.setStatus(FriendRequestStatus.REFUSED);
