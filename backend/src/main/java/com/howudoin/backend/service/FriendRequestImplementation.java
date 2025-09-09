@@ -109,7 +109,6 @@ public class FriendRequestImplementation implements FriendRequestService
         channel.setName(sender.getUsername() + " & " + receiver.getUsername());
         channel.setDescription("Private chat between " + sender.getUsername() + " and " + receiver.getUsername());
         channel.setCreatedAt(now);
-        channel.setAdmin(sender);
         channel.getMembers().add(sender);
         channel.getMembers().add(receiver);
 
