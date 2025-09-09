@@ -10,8 +10,8 @@ import java.util.Set;
 public class ChannelDTO
 {
     private String name;
-    private User admin;
+    private UserDTO admin;
     private String description;
-    private Set<User> members;
+    private Set<UserDTO> members;
     private LocalDateTime createdAt;
 }
