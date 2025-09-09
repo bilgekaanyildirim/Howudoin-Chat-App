@@ -10,7 +10,6 @@ import java.util.List;
 public class ChannelDTO
 {
     private String name;
-    private Long adminId;
     private String description;
     private List<Long> memberIds = new ArrayList<>();
 }

@@ -5,9 +5,7 @@ import com.howudoin.backend.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ChannelController
@@ -20,5 +18,13 @@ public class ChannelController
     {
         String message = channelService.createChannel(channelDTO);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/channels/{channelId}/add-member/{userId}")
+    public ResponseEntity<String> addMemberToChannel(@PathVariable Long channelId,
+                                                     @PathVariable Long userId)
+    {
+        String message = channelService.addMemberToChannel(channelId, userId);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

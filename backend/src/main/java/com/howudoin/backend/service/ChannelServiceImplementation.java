@@ -28,9 +28,6 @@ public class ChannelServiceImplementation implements ChannelService
     @Override
     public String createChannel(ChannelDTO channelDTO)
     {
-        User admin = userRepository.findById(channelDTO.getAdminId())
-                .orElseThrow(() -> new RuntimeException("Admin user not found"));
-
         Set<User> members = new HashSet<>();
 
        for (Long memberId : channelDTO.getMemberIds())
@@ -41,7 +38,6 @@ public class ChannelServiceImplementation implements ChannelService
               members.add(member);
        }
        Channel channel = new Channel();
-       channel.setAdmin(admin);
        channel.setMembers(members);
        channel.setName(channelDTO.getName());
        channel.setDescription(channelDTO.getDescription());
@@ -50,5 +46,20 @@ public class ChannelServiceImplementation implements ChannelService
        channelRepository.save(channel);
 
        return "Channel created successfully";
+    }
+
+    @Override
+    public String addMemberToChannel(Long channelId, Long groupId)
+    {
+        Channel channel = channelRepository.findById(channelId)
+                .orElseThrow(() -> new RuntimeException("Channel not found"));
+
+        User user = userRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        channel.getMembers().add(user);
+        channelRepository.save(channel);
+
+        return "Member added to channel successfully";
     }
 }

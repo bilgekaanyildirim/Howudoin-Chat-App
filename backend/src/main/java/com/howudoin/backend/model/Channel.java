@@ -23,10 +23,6 @@ public class Channel
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
-    private User admin;
-
     private LocalDateTime createdAt;
 
     private String description;
