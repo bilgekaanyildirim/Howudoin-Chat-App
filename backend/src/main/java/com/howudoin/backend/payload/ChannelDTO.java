@@ -9,7 +9,9 @@ import java.util.List;
 @Data
 public class ChannelDTO
 {
+    private Long channelId;
     private String name;
     private String description;
     private List<Long> memberIds = new ArrayList<>();
+    private LocalDateTime createdAt;
 }

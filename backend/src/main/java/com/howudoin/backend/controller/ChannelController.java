@@ -27,4 +27,11 @@ public class ChannelController
         String message = channelService.addMemberToChannel(channelId, userId);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
+    @GetMapping("/channels/{channelId}")
+    public ResponseEntity<ChannelDTO> getChannelById(@PathVariable Long channelId)
+    {
+        ChannelDTO channelDTO = channelService.getChannelById(channelId);
+        return new ResponseEntity<>(channelDTO, HttpStatus.OK);
+    }
 }

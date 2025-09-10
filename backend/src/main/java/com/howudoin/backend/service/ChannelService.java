@@ -7,4 +7,6 @@ public interface ChannelService
     String createChannel(ChannelDTO channelDTO);
 
     String addMemberToChannel(Long channelId, Long groupId);
+
+    ChannelDTO getChannelById(Long channelId);
 }

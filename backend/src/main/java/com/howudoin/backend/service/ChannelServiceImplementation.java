@@ -65,4 +65,13 @@ public class ChannelServiceImplementation implements ChannelService
 
         return "Member added to channel successfully";
     }
+
+    @Override
+    public ChannelDTO getChannelById(Long channelId)
+    {
+        Channel channel = channelRepository.findById(channelId)
+                .orElseThrow(() -> new RuntimeException("Channel not found"));
+
+        return modelMapper.map(channel, ChannelDTO.class);
+    }
 }
